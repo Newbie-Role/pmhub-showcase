@@ -7,142 +7,544 @@
     <!-- 引入外部资源 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* 自定义样式 */
+        /* 全局样式 */
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --text-color: #333;
+            --text-light: #666;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-light);
+        }
+        
+        /* 导航栏 */
+        .navbar {
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: var(--shadow);
+        }
+        
+        .navbar.scrolled .nav-link {
+            color: var(--text-color) !important;
+        }
+        
+        .navbar.scrolled .navbar-brand {
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.3s ease;
+            margin-left: 1.5rem;
+        }
+        
+        .nav-link:hover {
+            color: white;
+        }
+        
+        /* 英雄区域 */
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 8rem 0 6rem;
+            position: relative;
+            overflow: hidden;
         }
         
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmZmZmMTAiPjwvcmVjdD4KPHBhdGggZD0iTTAgNUw1IDBaTTYgNEw0IDZaTS0xIDFMMSAtMVoiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIxIj48L3BhdGg+Cjwvc3ZnPg==');
+            opacity: 0.1;
         }
         
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
         
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            max-width: 800px;
+        }
+        
+        .btn {
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-outline-light {
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-outline-light:hover {
+            background-color: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        /* 通用 section 样式 */
         section {
-            scroll-margin-top: 70px; /* 为固定导航栏留出空间 */
+            padding: 6rem 0;
+            scroll-margin-top: 80px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        /* 关于 section */
+        #about {
+            background-color: var(--bg-light);
+        }
+        
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        /* 功能特性 section */
+        .feature-card {
+            background-color: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* 技术栈 section */
+        #tech {
+            background-color: var(--bg-light);
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .tech-item {
+            background-color: var(--bg-white);
+            padding: 1.5rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .tech-item h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        /* 快速开始 section */
+        .quickstart-card {
+            background-color: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .quickstart-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .quickstart-card ul,
+        .quickstart-card ol {
+            margin-bottom: 2rem;
+        }
+        
+        .quickstart-card li {
+            margin-bottom: 0.75rem;
+            color: var(--text-light);
+        }
+        
+        .quickstart-card code {
+            background-color: #f1f1f1;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        /* 贡献指南 section */
+        #contributing {
+            background-color: var(--bg-light);
+        }
+        
+        .contributing-content {
+            background-color: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .contributing-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #2d3748;
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            margin-bottom: 2rem;
+        }
+        
+        .footer-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .footer-content p,
+        .footer-content li {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .footer-content a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-content a:hover {
+            color: white;
+        }
+        
+        .footer-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-content li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
         }
         
         /* 响应式设计 */
-        @media (max-width: 768px) {
-            .hero h2 {
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title h2 {
                 font-size: 2rem;
             }
             
-            .nav {
-                flex-direction: column;
-                align-items: flex-start;
+            .feature-card {
+                margin-bottom: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 0 4rem;
             }
             
-            .nav-item {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            section {
+                padding: 4rem 0;
+            }
+            
+            .navbar-collapse {
+                background-color: rgba(255, 255, 255, 0.95);
+                padding: 1rem;
+                border-radius: var(--border-radius);
+                margin-top: 1rem;
+            }
+            
+            .navbar-collapse .nav-link {
+                color: var(--text-color) !important;
+                margin-left: 0;
                 margin-bottom: 0.5rem;
+            }
+            
+            .tech-item {
+                min-width: 100px;
+                padding: 1rem 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .feature-card,
+            .quickstart-card,
+            .contributing-content {
+                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 头部 -->
-    <header class="bg-dark text-white py-3">
+    <!-- 导航栏 -->
+    <nav class="navbar fixed-top navbar-expand-lg bg-transparent">
         <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <h1 class="h3 mb-0">PMHub</h1>
-                <nav>
-                    <ul class="nav">
-                        <li class="nav-item"><a href="#about" class="nav-link text-white">关于</a></li>
-                        <li class="nav-item"><a href="#features" class="nav-link text-white">功能</a></li>
-                        <li class="nav-item"><a href="#tech" class="nav-link text-white">技术栈</a></li>
-                        <li class="nav-item"><a href="#quickstart" class="nav-link text-white">快速开始</a></li>
-                        <li class="nav-item"><a href="https://github.com/Newbie-Role/pmhub" target="_blank" class="nav-link text-white">GitHub</a></li>
-                    </ul>
-                </nav>
+            <a class="navbar-brand" href="#">PmHub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">关于</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">功能</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tech">技术栈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#quickstart">快速开始</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/Newbie-Role/pmhub" target="_blank">GitHub</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </header>
+    </nav>
 
     <!-- 英雄区域 -->
-    <section class="hero text-white py-12">
-        <div class="container text-center">
-            <h2 class="display-4 mb-4">PmHub - 项目管理平台</h2>
-            <p class="lead mb-6">一个功能强大、易于使用的项目管理系统，帮助团队高效协作</p>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="https://github.com/Newbie-Role/pmhub" target="_blank" class="btn btn-light btn-lg">
-                    <i class="bi bi-github"></i> 查看源码
-                </a>
-                <a href="#quickstart" class="btn btn-outline-light btn-lg">
-                    快速开始
-                </a>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content text-center">
+                <h1>PmHub - 项目智控平台</h1>
+                <p>一个功能强大、易于使用的项目管理系统，帮助团队高效协作，实现项目全生命周期管理</p>
+                <div class="d-flex justify-content-center gap-4">
+                    <a href="https://github.com/Newbie-Role/pmhub" target="_blank" class="btn btn-primary">
+                        <i class="bi bi-github me-2"></i> 查看源码
+                    </a>
+                    <a href="#quickstart" class="btn btn-outline-light">
+                        快速开始
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- 项目简介 -->
-    <section id="about" class="py-10 bg-light">
+    <section id="about">
         <div class="container">
-            <h2 class="text-center mb-6">关于 PmHub</h2>
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <p class="mb-4">PmHub 是一个基于 Java 开发的项目管理平台，旨在为团队提供一站式的项目管理解决方案。</p>
-                    <p class="mb-4">该项目包含多个模块，包括 API 接口、认证系统、基础服务、网关等，采用微服务架构设计，具有良好的扩展性和可维护性。</p>
-                    <p>通过 PmHub，团队可以实现项目的全生命周期管理，包括任务分配、进度跟踪、文档管理等功能，提高团队协作效率。</p>
-                </div>
+            <div class="section-title">
+                <h2>关于 PmHub</h2>
+            </div>
+            <div class="about-content">
+                <p>PmHub 是一个基于 Java 开发的项目管理平台，旨在为团队提供一站式的项目管理解决方案。采用微服务架构设计，具有良好的扩展性和可维护性。</p>
+                <p>该项目包含多个模块，包括 API 接口、认证系统、基础服务、网关等，通过模块化的设计，实现了系统的高可用性和可扩展性。</p>
+                <p>通过 PmHub，团队可以实现项目的全生命周期管理，包括任务分配、进度跟踪、文档管理等功能，提高团队协作效率，确保项目按时、按质、按量完成。</p>
             </div>
         </div>
     </section>
 
     <!-- 功能特性 -->
-    <section id="features" class="py-10">
+    <section id="features">
         <div class="container">
-            <h2 class="text-center mb-6">核心功能</h2>
-            <div class="row gap-4">
+            <div class="section-title">
+                <h2>核心功能</h2>
+            </div>
+            <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="card p-4 h-100">
-                        <div class="card-body">
-                            <h3 class="card-title mb-3">项目管理</h3>
-                            <p class="card-text">创建、管理和跟踪项目进度，支持项目状态更新和里程碑设置。</p>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-kanban"></i>
                         </div>
+                        <h3>项目管理</h3>
+                        <p>创建、管理和跟踪项目进度，支持项目状态更新和里程碑设置，实现项目全生命周期管理。</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card p-4 h-100">
-                        <div class="card-body">
-                            <h3 class="card-title mb-3">任务分配</h3>
-                            <p class="card-text">将任务分配给团队成员，设置截止日期和优先级，跟踪任务完成情况。</p>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-list-task"></i>
                         </div>
+                        <h3>任务分配</h3>
+                        <p>将任务分配给团队成员，设置截止日期和优先级，跟踪任务完成情况，确保项目按时完成。</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card p-4 h-100">
-                        <div class="card-body">
-                            <h3 class="card-title mb-3">文档管理</h3>
-                            <p class="card-text">集中存储和管理项目文档，支持版本控制和权限管理。</p>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-file-earmark-text"></i>
                         </div>
+                        <h3>文档管理</h3>
+                        <p>集中存储和管理项目文档，支持版本控制和权限管理，确保文档的安全性和可追溯性。</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card p-4 h-100">
-                        <div class="card-body">
-                            <h3 class="card-title mb-3">团队协作</h3>
-                            <p class="card-text">提供团队沟通工具，支持评论、通知和实时更新。</p>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-people"></i>
                         </div>
+                        <h3>团队协作</h3>
+                        <p>提供团队沟通工具，支持评论、通知和实时更新，促进团队成员之间的有效协作。</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card p-4 h-100">
-                        <div class="card-body">
-                            <h3 class="card-title mb-3">数据分析</h3>
-                            <p class="card-text">生成项目报表和数据分析，帮助团队做出决策。</p>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-bar-chart"></i>
                         </div>
+                        <h3>数据分析</h3>
+                        <p>生成项目报表和数据分析，帮助团队做出决策，优化项目管理流程和资源分配。</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card p-4 h-100">
-                        <div class="card-body">
-                            <h3 class="card-title mb-3">安全认证</h3>
-                            <p class="card-text">基于角色的权限控制，确保数据安全和访问控制。</p>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-lock"></i>
                         </div>
+                        <h3>安全认证</h3>
+                        <p>基于角色的权限控制，确保数据安全和访问控制，保护项目信息的机密性。</p>
                     </div>
                 </div>
             </div>
@@ -150,73 +552,67 @@
     </section>
 
     <!-- 技术栈 -->
-    <section id="tech" class="py-10 bg-light">
+    <section id="tech">
         <div class="container">
-            <h2 class="text-center mb-6">技术栈</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="row gap-3">
-                        <div class="col-4 text-center">
-                            <div class="p-3 bg-white rounded shadow-sm">
-                                <h4>Java</h4>
-                            </div>
-                        </div>
-                        <div class="col-4 text-center">
-                            <div class="p-3 bg-white rounded shadow-sm">
-                                <h4>Spring Boot</h4>
-                            </div>
-                        </div>
-                        <div class="col-4 text-center">
-                            <div class="p-3 bg-white rounded shadow-sm">
-                                <h4>Spring Cloud</h4>
-                            </div>
-                        </div>
-                        <div class="col-4 text-center">
-                            <div class="p-3 bg-white rounded shadow-sm">
-                                <h4>MySQL</h4>
-                            </div>
-                        </div>
-                        <div class="col-4 text-center">
-                            <div class="p-3 bg-white rounded shadow-sm">
-                                <h4>Redis</h4>
-                            </div>
-                        </div>
-                        <div class="col-4 text-center">
-                            <div class="p-3 bg-white rounded shadow-sm">
-                                <h4>Vue.js</h4>
-                            </div>
-                        </div>
-                    </div>
+            <div class="section-title">
+                <h2>技术栈</h2>
+            </div>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <h4>Java</h4>
+                </div>
+                <div class="tech-item">
+                    <h4>Spring Boot</h4>
+                </div>
+                <div class="tech-item">
+                    <h4>Spring Cloud</h4>
+                </div>
+                <div class="tech-item">
+                    <h4>MySQL</h4>
+                </div>
+                <div class="tech-item">
+                    <h4>Redis</h4>
+                </div>
+                <div class="tech-item">
+                    <h4>Vue.js</h4>
+                </div>
+                <div class="tech-item">
+                    <h4>Docker</h4>
+                </div>
+                <div class="tech-item">
+                    <h4>Kubernetes</h4>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 快速开始 -->
-    <section id="quickstart" class="py-10">
+    <section id="quickstart">
         <div class="container">
-            <h2 class="text-center mb-6">快速开始</h2>
+            <div class="section-title">
+                <h2>快速开始</h2>
+            </div>
             <div class="row">
                 <div class="col-md-8 mx-auto">
-                    <div class="bg-white p-5 rounded shadow-sm">
-                        <h3 class="mb-4">环境要求</h3>
-                        <ul class="list-unstyled mb-4">
-                            <li class="mb-2"><i class="bi bi-check-circle text-success"></i> JDK 1.8+</li>
-                            <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Maven 3.6+</li>
-                            <li class="mb-2"><i class="bi bi-check-circle text-success"></i> MySQL 5.7+</li>
-                            <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Redis 5.0+</li>
+                    <div class="quickstart-card">
+                        <h3>环境要求</h3>
+                        <ul>
+                            <li><i class="bi bi-check-circle text-success me-2"></i> JDK 1.8+</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i> Maven 3.6+</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i> MySQL 5.7+</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i> Redis 5.0+</li>
                         </ul>
                         
-                        <h3 class="mb-4">安装步骤</h3>
-                        <ol class="mb-4">
-                            <li class="mb-2">克隆仓库：<code>git clone https://github.com/Newbie-Role/pmhub.git</code></li>
-                            <li class="mb-2">进入项目目录：<code>cd pmhub</code></li>
-                            <li class="mb-2">构建项目：<code>mvn clean install</code></li>
-                            <li class="mb-2">配置数据库连接（修改 <code>application.yml</code>）</li>
-                            <li class="mb-2">启动服务：<code>mvn spring-boot:run</code></li>
+                        <h3>安装步骤</h3>
+                        <ol>
+                            <li>克隆仓库：<code>git clone https://github.com/Newbie-Role/pmhub.git</code></li>
+                            <li>进入项目目录：<code>cd pmhub</code></li>
+                            <li>构建项目：<code>mvn clean install</code></li>
+                            <li>配置数据库连接（修改 <code>application.yml</code>）</li>
+                            <li>启动服务：<code>mvn spring-boot:run</code></li>
                         </ol>
                         
-                        <h3 class="mb-4">访问系统</h3>
+                        <h3>访问系统</h3>
                         <p>服务启动后，访问 <a href="http://localhost:8080" target="_blank">http://localhost:8080</a> 即可进入系统。</p>
                     </div>
                 </div>
@@ -225,45 +621,58 @@
     </section>
 
     <!-- 贡献指南 -->
-    <section id="contributing" class="py-10 bg-light">
+    <section id="contributing">
         <div class="container">
-            <h2 class="text-center mb-6">贡献指南</h2>
+            <div class="section-title">
+                <h2>贡献指南</h2>
+            </div>
             <div class="row">
                 <div class="col-md-8 mx-auto">
-                    <p class="mb-4">欢迎为 PMHub 项目做出贡献！以下是贡献的基本步骤：</p>
-                    <ol class="mb-4">
-                        <li class="mb-2">Fork 仓库到个人账号</li>
-                        <li class="mb-2">克隆 fork 后的仓库到本地</li>
-                        <li class="mb-2">创建新分支：<code>git checkout -b feature/your-feature</code></li>
-                        <li class="mb-2">进行代码修改并提交</li>
-                        <li class="mb-2">推送到个人仓库：<code>git push origin feature/your-feature</code></li>
-                        <li class="mb-2">创建 Pull Request</li>
-                    </ol>
-                    <p>请确保你的代码符合项目的编码规范，并通过所有测试。</p>
+                    <div class="contributing-content">
+                        <h3>如何贡献</h3>
+                        <p>欢迎为 PMHub 项目做出贡献！以下是贡献的基本步骤：</p>
+                        <ol>
+                            <li>Fork 仓库到个人账号</li>
+                            <li>克隆 fork 后的仓库到本地</li>
+                            <li>创建新分支：<code>git checkout -b feature/your-feature</code></li>
+                            <li>进行代码修改并提交</li>
+                            <li>推送到个人仓库：<code>git push origin feature/your-feature</code></li>
+                            <li>创建 Pull Request</li>
+                        </ol>
+                        <p>请确保你的代码符合项目的编码规范，并通过所有测试。</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- 页脚 -->
-    <footer class="bg-dark text-white py-6">
+    <footer>
         <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h3 class="h4 mb-4">PmHub</h3>
-                    <p>一个功能强大的项目管理平台</p>
+            <div class="row footer-content">
+                <div class="col-md-4">
+                    <h3>PmHub</h3>
+                    <p>一个功能强大的项目管理平台，帮助团队高效协作，实现项目全生命周期管理。</p>
                 </div>
-                <div class="col-md-6">
-                    <h3 class="h4 mb-4">链接</h3>
-                    <ul class="list-unstyled">
-                        <li><a href="https://github.com/Newbie-Role/pmhub" target="_blank" class="text-white">GitHub</a></li>
-                        <li><a href="#about" class="text-white">关于</a></li>
-                        <li><a href="#features" class="text-white">功能</a></li>
-                        <li><a href="#quickstart" class="text-white">快速开始</a></li>
+                <div class="col-md-4">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="#about">关于</a></li>
+                        <li><a href="#features">功能</a></li>
+                        <li><a href="#tech">技术栈</a></li>
+                        <li><a href="#quickstart">快速开始</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h3>联系我们</h3>
+                    <ul>
+                        <li><a href="https://github.com/Newbie-Role/pmhub" target="_blank">GitHub</a></li>
+                        <li><a href="https://github.com/Newbie-Role/pmhub/issues" target="_blank">问题反馈</a></li>
+                        <li>邮件：contact@pmhub.com</li>
                     </ul>
                 </div>
             </div>
-            <div class="border-top border-gray-700 mt-4 pt-4 text-center">
+            <div class="footer-bottom">
                 <p>&copy; 2026 PmHub. 保留所有权利。</p>
             </div>
         </div>
@@ -284,14 +693,35 @@
 
         // 导航栏滚动效果
         window.addEventListener('scroll', function() {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.classList.add('bg-dark');
-                header.classList.remove('bg-transparent');
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
             } else {
-                header.classList.add('bg-transparent');
-                header.classList.remove('bg-dark');
+                navbar.classList.remove('scrolled');
             }
+        });
+
+        // 卡片动画效果
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有卡片元素
+        document.querySelectorAll('.feature-card, .tech-item').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
         });
     </script>
 </body>
